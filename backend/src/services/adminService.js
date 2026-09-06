@@ -109,6 +109,20 @@ async function getDashboardStats() {
   };
 }
 
+/** Same per-department student/alumni counting as getDashboardStats' chart data,
+ *  exposed standalone (and unsliced) for the admin "Manage Departments" page. */
+async function getDepartmentStats() {
+  const users = await userService.listUsers();
+  const deptCounts = {};
+  users.filter((u) => ["student", "alumni"].includes(u.role) && u.department).forEach((u) => {
+    deptCounts[u.department] = deptCounts[u.department] || { department: u.department, students: 0, alumni: 0, total: 0 };
+    if (u.role === "student") deptCounts[u.department].students++;
+    if (u.role === "alumni") deptCounts[u.department].alumni++;
+    deptCounts[u.department].total++;
+  });
+  return Object.values(deptCounts).sort((a, b) => b.total - a.total);
+}
+
 async function getMentorshipAnalytics() {
   const [requestsSnap, matchesSnap] = await Promise.all([db.collection("mentorshipRequests").get(), db.collection("mentorshipMatches").get()]);
   const requests = requestsSnap.docs.map((d) => d.data());
@@ -137,4 +151,4 @@ async function getMentorshipAnalytics() {
   return { analytics, topMentors };
 }
 
-module.exports = { getAllUsersFiltered, getPendingAlumni, getDashboardStats, getMentorshipAnalytics };
+module.exports = { getAllUsersFiltered, getPendingAlumni, getDashboardStats, getDepartmentStats, getMentorshipAnalytics };

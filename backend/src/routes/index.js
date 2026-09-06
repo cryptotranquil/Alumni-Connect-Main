@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.use("/", require("./authRoutes"));
 router.use("/", require("./userRoutes"));
+router.use("/departments", require("./departmentRoutes"));
 router.use("/cv", require("./cvRoutes"));
 router.use("/jobs", require("./jobRoutes"));
 router.use("/messages", require("./messageRoutes"));

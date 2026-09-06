@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const userService = require("../services/userService");
+const departmentService = require("../services/departmentService");
 const generateToken = require("../utils/generateToken");
 const formatUser = require("../utils/formatUser");
 const { generatePlainToken, hashToken } = require("../utils/tokenCrypto");
@@ -17,7 +18,10 @@ exports.register = async (req, res) => {
     return res.status(400).json({ success: false, message: errors.array()[0].msg });
   }
 
-  const { name, email, password, role, phone, graduationYear, university, company, position } = req.body;
+  const {
+    name, email, password, role, phone, graduationYear,
+    university, company, position, registrationNumber, department,
+  } = req.body;
 
   if (!["student", "alumni", "admin"].includes(role)) {
     return res.status(400).json({ success: false, message: "Invalid role." });
@@ -52,6 +56,20 @@ exports.register = async (req, res) => {
     return res.status(400).json({ success: false, message: "Graduation year is required for students." });
   }
 
+  // department & registration number — required for both students and alumni
+  // (see the intent already encoded in the (unused) Mongoose User schema),
+  // and previously collected by the form but silently dropped here.
+  if (!department) {
+    return res.status(400).json({ success: false, message: "Department is required." });
+  }
+  const matchedDepartment = await departmentService.findByName(department);
+  if (!matchedDepartment) {
+    return res.status(400).json({ success: false, message: "Please select a valid department from the list." });
+  }
+  if (role === "student" && !registrationNumber) {
+    return res.status(400).json({ success: false, message: "Registration number is required for students." });
+  }
+
   const exists = await userService.findByEmail(email);
   if (exists) {
     return res.status(400).json({ success: false, message: "Email already registered" });
@@ -64,6 +82,8 @@ exports.register = async (req, res) => {
     password, role,
     phone: phone || "",
     accountStatus,
+    department: matchedDepartment.name,
+    registrationNumber: registrationNumber ? registrationNumber.trim().toUpperCase() : "",
   });
 
   // NOTE: this creates the `users` doc only. Extended profile fields
@@ -83,6 +103,7 @@ exports.register = async (req, res) => {
   const token = generateToken(user.id);
   return res.status(201).json({ success: true, user: formatUser(user), token });
 };
+
 
 exports.login = async (req, res) => {
   const errors = validationResult(req);

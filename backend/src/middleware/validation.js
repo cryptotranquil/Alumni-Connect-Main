@@ -1,5 +1,20 @@
 const { body, param, query, validationResult } = require("express-validator");
-const DEPARTMENTS = require("../config/departments");
+const departmentService = require("../services/departmentService");
+
+// Departments are now admin-managed (see departmentService / the "Manage
+// Departments" admin page) instead of a hardcoded list, so this checks
+// against the live, active department list rather than a static array —
+// otherwise a department the admin just added would fail validation here
+// even though it's a valid option on the signup dropdown.
+const isKnownDepartment = async (value) => {
+  if (!value) return true; // these fields are all .optional()
+  const departments = await departmentService.listActive();
+  const match = departments.some(
+    (d) => d.name.toLowerCase() === String(value).toLowerCase(),
+  );
+  if (!match) throw new Error("Please select a valid department from the list");
+  return true;
+};
 
 // Middleware to check validation results
 const validate = (req, res, next) => {
@@ -53,9 +68,8 @@ const registerValidation = [
     body("department")
     .optional()
     .trim()
-    .isIn(DEPARTMENTS)
-    .withMessage(`Department must be one of: ${DEPARTMENTS.join(", ")}`)
-    .customSanitizer((value) => sanitizeHtml(value)),
+    .customSanitizer((value) => sanitizeHtml(value))
+    .custom(isKnownDepartment),
 ];
 
 const loginValidation = [
@@ -194,9 +208,8 @@ const updateProfileValidation = [
   body("department")
     .optional()
     .trim()
-    .isIn(DEPARTMENTS)
-    .withMessage(`Department must be one of: ${DEPARTMENTS.join(", ")}`)
-    .customSanitizer((value) => sanitizeHtml(value)),
+    .customSanitizer((value) => sanitizeHtml(value))
+    .custom(isKnownDepartment),
 ];
 
 const changePasswordValidation = [
@@ -214,9 +227,8 @@ const directoryFilterValidation = [
     query("department")
     .optional()
     .trim()
-    .isIn(DEPARTMENTS)
-    .withMessage(`Department must be one of: ${DEPARTMENTS.join(", ")}`)
-    .customSanitizer((value) => sanitizeHtml(value)),
+    .customSanitizer((value) => sanitizeHtml(value))
+    .custom(isKnownDepartment),
   query("skills")
     .optional()
     .trim()
