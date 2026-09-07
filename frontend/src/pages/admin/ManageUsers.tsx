@@ -23,7 +23,7 @@ import {
 
 // ── User detail drawer ───────────────────────────────────────────────────────
 const UserDrawer = ({ user, onClose }: { user: User; onClose: () => void }) => {
-  const initials = user.name.charAt(0).toUpperCase();
+  const initials = (user.name ?? "?").charAt(0).toUpperCase();
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
@@ -256,7 +256,7 @@ const UserCard = ({
             className="w-full h-full object-cover"
           />
         ) : (
-          u.name.charAt(0).toUpperCase()
+          (u.name ?? "?").charAt(0).toUpperCase()
         )}
       </div>
       <div className="flex-1 min-w-0">
@@ -391,10 +391,11 @@ const ManageUsers = () => {
 
   const filtered = users.filter((u) => {
     const matchSearch =
-      (u.name ?? "").toLowerCase().includes(search.toLowerCase())
-        u.email.toLowerCase().includes(search.toLowerCase()) ||
-      (u.registrationNumber &&
-        u.registrationNumber.toLowerCase().includes(search.toLowerCase()));
+      (u.name ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (u.email ?? "").toLowerCase().includes(search.toLowerCase()) ||
+      (u.registrationNumber ?? "")
+        .toLowerCase()
+        .includes(search.toLowerCase());
     const matchRole = filterRole ? u.role === filterRole : true;
     const matchDepartment = filterDepartment
       ? u.department === filterDepartment
@@ -639,7 +640,7 @@ const ManageUsers = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            u.name.charAt(0).toUpperCase()
+                            (u.name ?? "?").charAt(0).toUpperCase()
                           )}
                         </div>
                         <div>
