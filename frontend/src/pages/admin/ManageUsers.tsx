@@ -391,8 +391,8 @@ const ManageUsers = () => {
 
   const filtered = users.filter((u) => {
     const matchSearch =
-      u.name.toLowerCase().includes(search.toLowerCase()) ||
-      u.email.toLowerCase().includes(search.toLowerCase()) ||
+      (u.name ?? "").toLowerCase().includes(search.toLowerCase())
+        u.email.toLowerCase().includes(search.toLowerCase()) ||
       (u.registrationNumber &&
         u.registrationNumber.toLowerCase().includes(search.toLowerCase()));
     const matchRole = filterRole ? u.role === filterRole : true;
