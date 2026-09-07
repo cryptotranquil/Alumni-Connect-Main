@@ -516,12 +516,12 @@ const NotificationsPage = () => {
 
                       <div className="flex items-center gap-3 mt-3 text-xs text-gray-400">
                         <span>
-                          {formatDistanceToNow(
-                            new Date(notification.createdAt),
-                            {
-                              addSuffix: true,
-                            },
-                          )}
+                          {(() => {
+                            const d = new Date(notification.createdAt);
+                            return isNaN(d.getTime())
+                              ? ""
+                              : formatDistanceToNow(d, { addSuffix: true });
+                          })()}
                         </span>
                         {notification.data?.studentName && (
                           <span>• From: {notification.data.studentName}</span>
