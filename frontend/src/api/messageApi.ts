@@ -30,11 +30,11 @@ export async function sendMessageApi(
   message: string,
 ): Promise<Message> {
   try {
-    const { data } = await api.post<Message>("/messages", {
-      receiverId,
-      message,
-    });
-    return data;
+    const { data } = await api.post<{ success: boolean; message: Message }>(
+      "/messages",
+      { receiverId, message },
+    );
+    return data.message;
   } catch (e) {
     throw new Error(getErrorMessage(e, "Failed to send message"));
   }

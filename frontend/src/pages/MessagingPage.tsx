@@ -379,8 +379,10 @@ const MessagingPage = () => {
       setMessages((prev) => [...prev, msg]);
       refreshConversations();
       setText("");
-    } catch {
-      setSendError("Failed to send. Please try again.");
+    } catch (err) {
+      setSendError(
+        err instanceof Error ? err.message : "Failed to send. Please try again.",
+      );
     } finally {
       setSending(false);
     }
