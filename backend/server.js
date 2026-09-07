@@ -9,6 +9,8 @@ const { errorHandler } = require("./src/middleware/errorMiddleware");
 const initSocket = require("./src/socket");
 const cronService = require("./src/services/cron.service");
 
+
+
 // Ensure JWT secret exists
 if (!process.env.JWT_SECRET) {
   process.env.JWT_SECRET = "dev-jwt-secret-change-in-production";

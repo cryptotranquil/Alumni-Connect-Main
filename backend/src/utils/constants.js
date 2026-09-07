@@ -1,15 +1,9 @@
 // src/utils/constants.js
 const VALID_DEPARTMENTS = [
-  "Computer Science",
-  "Engineering",
-  "Business",
-  "Nursing",
-  "Arts & Sciences",
-  "Law",
-  "Medicine",
-  "Architecture",
-  "Finance",
-  "Marketing",
+  
+  "Finance & Accounting",
+  "Information Technology",
+  "Business Administration"
 ];
 
 const VALID_ROLES = ["student", "alumni", "admin"];
