@@ -168,6 +168,8 @@ const studentNav: NavItem[] = [
 const alumniNav: NavItem[] = [
   { label: "Dashboard", path: "/alumni/dashboard", icon: <IconDashboard /> },
   { label: "Post Jobs", path: "/jobs", icon: <IconJobs /> },
+    { label: "Businesses", path: "/alumni/my_businesses", icon: <IconJobs /> },
+  { label: "Products", path: "/alumni/my_products", icon: <IconJobs /> },
   { label: "Events", path: "/events", icon: <IconEvents /> },
   { label: "Messages", path: "/messages", icon: <IconMessages /> },
   { label: "Students", path: "/students", icon: <IconUsers /> },
