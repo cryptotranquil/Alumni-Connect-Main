@@ -90,7 +90,9 @@ const AlumniDirectoryPage = () => {
 
   const statusByAlumniId = useMemo(() => {
     const m = new Map<string, ConnectionStatus>();
-    connections.forEach((row) => m.set(row.alumni._id, row.status));
+    connections.forEach((row) => {
+      if (row.alumni) m.set(row.alumni._id, row.status);
+    });
     return m;
   }, [connections]);
 
