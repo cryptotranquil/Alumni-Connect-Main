@@ -14,9 +14,9 @@ import BusinessesPage from "./pages/alumni/businessesPage";
 import BusinessDetailPage from "./pages/alumni/businessDetailPage";
 import ProductsPage from "./pages/alumni/productsPage";
 import ProductDetailsPage from "./pages/alumni/productDetailsPage";
-// import StudentBusinessesPage from "./pages/student/businessesPage";
-// import StudentBusinessDetailPage from "./pages/student/businessDetailPage";
-// import StudentProductDetailPage from "./pages/student/productDetailsPage";
+import StudentBusinessesPage from "./pages/student/businessesPage";
+import StudentBusinessDetailPage from "./pages/student/businessDetailPage";
+import StudentProductDetailPage from "./pages/student/productDetailsPage";
 // import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -143,6 +143,31 @@ const AppRoutes = () => (
 
     {/* Student */}
     <Route
+      path="/student/businesses"
+      element={
+        <ProtectedRoute>
+          <StudentBusinessesPage />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/student/business_details/:business_id"
+      element={
+        <ProtectedRoute>
+          <StudentBusinessDetailPage />
+        </ProtectedRoute>
+      }
+    />
+
+    <Route
+      path="/student/product_details/:product_id"
+      element={
+        <ProtectedRoute>
+          <StudentProductDetailPage />
+        </ProtectedRoute>
+      }
+    />
+    <Route
       path="/student/dashboard"
       element={
         <ProtectedRoute>
@@ -152,6 +177,40 @@ const AppRoutes = () => (
     />
 
     {/* Alumni */}
+   <Route
+      path="/alumni/my_businesses"
+      element={
+        <ProtectedRoute>
+          <BusinessesPage />
+        </ProtectedRoute>
+      }
+    />
+
+    <Route 
+      path="/alumni/business_details/:business_id"
+      element={
+        <ProtectedRoute>
+          <BusinessDetailPage />
+        </ProtectedRoute>
+      }
+    />
+
+    <Route
+      path="/alumni/my_products"
+      element={
+        <ProtectedRoute>
+          <ProductsPage />
+        </ProtectedRoute>
+      }
+    />
+      <Route
+      path="/alumni/product_details/:product_id"
+      element={
+        <ProtectedRoute>
+          <ProductDetailsPage />
+        </ProtectedRoute>
+      }
+    />
     <Route
       path="/alumni/dashboard"
       element={
