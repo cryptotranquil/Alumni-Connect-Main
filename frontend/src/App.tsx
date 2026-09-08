@@ -9,6 +9,14 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { SocketProvider } from "./context/SocketContext";
 
 // Pages
+import AlumniBusinesses from "./pages/businesses";
+import BusinessesPage from "./pages/alumni/businessesPage";
+import BusinessDetailPage from "./pages/alumni/businessDetailPage";
+import ProductsPage from "./pages/alumni/productsPage";
+import ProductDetailsPage from "./pages/alumni/productDetailsPage";
+// import StudentBusinessesPage from "./pages/student/businessesPage";
+// import StudentBusinessDetailPage from "./pages/student/businessDetailPage";
+// import StudentProductDetailPage from "./pages/student/productDetailsPage";
 // import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
