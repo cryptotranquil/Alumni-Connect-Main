@@ -158,6 +158,7 @@ const IconMenu = () => (
 const studentNav: NavItem[] = [
   { label: "Dashboard", path: "/student/dashboard", icon: <IconDashboard /> },
   { label: "Jobs", path: "/jobs", icon: <IconJobs /> },
+  { label: "Businesses", path: "/student/businesses", icon: <IconJobs /> },
   { label: "Events", path: "/events", icon: <IconEvents /> },
   { label: "Messages", path: "/messages", icon: <IconMessages /> },
   { label: "Alumni", path: "/alumni", icon: <IconUsers /> },
